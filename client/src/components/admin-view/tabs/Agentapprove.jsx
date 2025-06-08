@@ -9,7 +9,7 @@ const AgentApprove = () => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
 
-  const limit = 5; // Agents per page
+  const limit = 5;
   const apiUrl = `${import.meta.env.VITE_BACKEND_URL}/api/SignupRoutes/agent`;
 
   const fetchAgents = async () => {
