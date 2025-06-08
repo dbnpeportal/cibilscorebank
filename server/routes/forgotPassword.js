@@ -3,7 +3,6 @@ import { forgotPassword, resetPassword } from "../controllers/forgotPasswordCont
 
 const router = express.Router();
 
-// Route for forgot password
 router.post("/forgot-password", forgotPassword);
 
 // Route for reset password

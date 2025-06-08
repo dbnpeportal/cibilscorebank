@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import axios from "axios";
 import { io } from "socket.io-client";
 
-// Connect to socket server using VITE environment variable
 const socket = io(import.meta.env.VITE_BACKEND_URL, {
   transports: ["websocket", "polling"], // ✅ Ensure transport compatibility
   withCredentials: true, // ✅ Fix potential CORS issues
