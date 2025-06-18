@@ -58,7 +58,6 @@ import CustomerLegalAdvice from "./pages/auth/CustomerLegalAdvice.jsx";
 import ForgotPasswordAgent from "./pages/auth/ForgotPasswordAgent.jsx";
 import ResetPasswordAgent from "./pages/auth/ResetPasswordAgent.jsx";
 
-
 import WalletPage from "./pages/auth/Wallet.jsx";
 
 import MyProfile from "./myProfile/MyProfile.jsx";
@@ -120,7 +119,9 @@ function App() {
   return (
     <Router>
       <ThemeProvider>
-        <AuthProvider> {/* AuthProvider should wrap the components that need authentication */}
+        <AuthProvider>
+          {" "}
+          {/* AuthProvider should wrap the components that need authentication */}
           <Layout>
             <Routes>
               {/* Public Routes */}
@@ -155,7 +156,10 @@ function App() {
               />
 
               {/* Service Pages */}
-              <Route path="/services/banking-apis" element={<BankingAPIPage />} />
+              <Route
+                path="/services/banking-apis"
+                element={<BankingAPIPage />}
+              />
               <Route
                 path="/services/b2b-systems"
                 element={<B2BBankingSystems />}
@@ -197,7 +201,9 @@ function App() {
               <Route
                 path="/my-profile"
                 element={
-                  <ProtectedRoute allowedTypes={["customer", "business", "agent"]}>
+                  <ProtectedRoute
+                    allowedTypes={["customer", "business", "agent"]}
+                  >
                     <MyProfile />
                   </ProtectedRoute>
                 }
@@ -333,7 +339,14 @@ function App() {
               />
 
               {/* Protected Admin Routes */}
-              <Route path="/admin" element={<AdminPanel />} />
+              <Route
+                path="/admin"
+                element={
+                  <ProtectedRoute allowedTypes={["admin"]}>
+                    <AdminPanel />
+                  </ProtectedRoute>
+                }
+              />
 
               {/* Protected Business Routes */}
               <Route

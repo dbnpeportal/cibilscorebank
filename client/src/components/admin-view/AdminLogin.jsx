@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext.jsx"; // Import useAuth from AuthContext
 
 const AdminLogin = () => {
   const [email, setEmail] = useState("");
@@ -8,46 +9,42 @@ const AdminLogin = () => {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const { login } = useAuth(); // Get login function from AuthContext
 
-  // Hardcoded credentials
-  const ADMIN_EMAIL = import.meta.env.VITE_ADMIN_EMAIL;
-  const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD;
+  // Hardcoded credentials (for demo purposes; in production, use a secure backend)
+  const ADMIN_EMAIL = import.meta.env.VITE_ADMIN_EMAIL || "admin@dbnpe.com";
+  const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD || "admin123";
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setError(null);
     setLoading(true);
 
-    // Simulate network delay for authentication
-    setTimeout(() => {
-      try {
-        // Check credentials against hardcoded values
-        if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
-          // Store admin data in localStorage
-          const adminData = {
-            id: "admin1",
-            email: ADMIN_EMAIL,
-            name: "Admin User",
-            role: "administrator"
-          };
+    try {
+      // Simulate authentication check
+      if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+        // Mock admin data
+        const adminData = {
+          id: "admin1",
+          email: email,
+          name: "Admin User",
+          userType: "admin", // Ensure userType is set to 'admin'
+        };
 
-          // Create a mock token (for UI purposes only)
-          const mockToken = "mock-jwt-token-" + Date.now();
+        // Call the login function from AuthContext to update authentication state
+        await login(adminData, "mock-jwt-token-" + Date.now());
 
-          localStorage.setItem("adminToken", mockToken);
-          localStorage.setItem("admin", JSON.stringify(adminData));
-
-          navigate("/admin");
-        } else {
-          setError("Invalid credentials. Please try again.");
-        }
-      } catch (error) {
-        console.error("Error:", error.message);
-        setError("Login failed. Please try again.");
-      } finally {
-        setLoading(false);
+        // Redirect to admin panel
+        navigate("/admin", { replace: true });
+      } else {
+        setError("Invalid credentials. Please try again.");
       }
-    }, 800); // Simulate network delay
+    } catch (error) {
+      console.error("Login error:", error.message);
+      setError("Login failed. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const togglePasswordVisibility = () => {
@@ -171,8 +168,6 @@ const AdminLogin = () => {
                   </div>
                 </div>
 
-
-
                 {/* Remember device */}
                 <div className="flex items-center">
                   <input
@@ -228,8 +223,6 @@ const AdminLogin = () => {
             </div>
           </div>
         </div>
-
-
       </div>
     </div>
   );
